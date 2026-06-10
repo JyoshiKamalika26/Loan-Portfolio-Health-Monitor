@@ -10,3 +10,4 @@ A banking analytics project to monitor loan portfolio performance, NPA trends, r
 - Seaborn
 - Plotly
 - Streamlit
+Project created for internship.
