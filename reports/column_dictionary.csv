@@ -1,0 +1,11 @@
+Column,Type,Meaning
+loan_amnt,Numeric,Amount of loan requested by borrower
+annual_inc,Numeric,Annual income of borrower
+int_rate,Numeric,Interest rate on the loan
+grade,Categorical,Credit grade assigned by Lending Club
+loan_status,Categorical,Current status of the loan
+emp_length,Numeric,Years of employment
+dti,Numeric,Debt-to-income ratio
+is_npa,Binary,1 = bad loan and 0 = good loan
+loan_to_income,Numeric,Loan amount divided by annual income
+issue_year,Numeric,Year the loan was issued

@@ -196,11 +196,15 @@ print("\nNPA Distribution:")
 print(df["is_npa"].value_counts())
 
 # SAVE CLEANED DATA
+<<<<<<< HEAD
 df.to_csv(
     OUTPUT_FILE,
     index=False
 )
 
+=======
+df.to_csv("data/processed/clean_loan_data.csv",index=False)
+>>>>>>> db0b7a1589414591ab3076120e5a0ac4e7531605
 print("\nCleaned dataset saved successfully!")
 
 print("\nSaved To:")
