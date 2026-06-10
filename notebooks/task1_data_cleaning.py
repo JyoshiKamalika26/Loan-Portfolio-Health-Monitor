@@ -87,7 +87,7 @@ print("Categorical Columns:",len(cat_cols))
 print("\nNPA Distribution:")
 print(df["is_npa"].value_counts())
 # SAVE CLEANED DATA
-df.to_csv("data/processed/cleaned_loan_data.csv",index=False)
+df.to_csv("data/processed/clean_loan_data.csv",index=False)
 print("\nCleaned dataset saved successfully!")
 print("\nFinal Shape:")
 print(df.shape)
