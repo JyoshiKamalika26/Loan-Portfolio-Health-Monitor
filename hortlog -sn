@@ -1,0 +1,79 @@
+[33mcommit 615eff7aebd3fb1ed80ecd557e621e087322e924[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Thu Jun 11 15:51:33 2026 +0530
+
+    updated README.md
+
+[33mcommit 56b2d4a28c31f67fa505a09f70cf5bcb551fe6f9[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Thu Jun 11 15:21:25 2026 +0530
+
+    task3 streamlit dashboard created successfully
+
+[33mcommit 0c5487e4970e5cf88d5649352c729291787781b9[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Thu Jun 11 12:05:08 2026 +0530
+
+    Completed Week 3 NPA Analysis
+
+[33mcommit b04e557472119fdd978342e8d2481a1780422ad6[m
+Merge: 038409a 0dc9b42
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Thu Jun 11 10:27:23 2026 +0530
+
+    Merge branch 'master' of https://github.com/JyoshiKamalika26/Loan-Portfolio-Health-Monitor
+
+[33mcommit 038409aa29c9a595d132de3a02ebaf9a556a06f6[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Thu Jun 11 10:26:24 2026 +0530
+
+    Updated Task 1 files
+
+[33mcommit 0dc9b42ab6f230a04106ce8f8997bc07f050faf7[m
+Merge: cd1dc97 db0b7a1
+Author: jyoshikamalika26 <jyoshikamalika.m@giniminds.com>
+Date:   Wed Jun 10 20:56:45 2026 +0530
+
+    Resolved merge conflict
+
+[33mcommit cd1dc97f8d705cf170228e8dec0b4ac5f15d8a04[m
+Author: jyoshikamalika26 <jyoshikamalika.m@giniminds.com>
+Date:   Wed Jun 10 20:04:55 2026 +0530
+
+    Completed Task 1 and Task 2 risk analytics
+
+[33mcommit db0b7a1589414591ab3076120e5a0ac4e7531605[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Wed Jun 10 15:10:33 2026 +0530
+
+    column_dictionary added successfully
+
+[33mcommit 5aa0913a3c15374ebb57e08a4ee972abd78a4690[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Wed Jun 10 14:49:15 2026 +0530
+
+    Updated task1_data_cleaning.py
+
+[33mcommit a339577bda1a31dee83d754d01c944af856e2ff5[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Wed Jun 10 14:28:02 2026 +0530
+
+    Updated README
+
+[33mcommit 6dff0e03db4a49d1b32bc0caf605dc369c449498[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Wed Jun 10 14:26:31 2026 +0530
+
+    completed task 1 data cleaning
+
+[33mcommit fb4715b82b19910b293c2097a3c46faa2e4a850e[m
+Author: SRITHU18082007 <muvvasrithu.reddy@giniminds.com>
+Date:   Wed Jun 10 11:25:35 2026 +0530
+
+    Updated README
+
+[33mcommit 9ed523a672025e89e36e776e731fba51781fc191[m
+Author: SRITHU2007 <muvvasrithu@karunya.edu.in>
+Date:   Wed Jun 10 10:56:53 2026 +0530
+
+    Initial project structure
