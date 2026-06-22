@@ -1,3 +1,7 @@
 data/raw/
 data/processed/
 *.csv
+.env
+api.log
+__pycache__/
+*.pyc
