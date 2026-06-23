@@ -4,6 +4,17 @@ from sqlalchemy import create_engine
 from config import *
 import plotly.express as px
 
+from auth import *
+import report_generator
+import os
+
+require_login()
+
+st.sidebar.success(
+    f"Logged in as {st.session_state.role}"
+)
+
+logout()
 # ===================================
 # PAGE CONFIG
 # ===================================
@@ -20,8 +31,6 @@ st.title("🏦 Loan Portfolio Health Monitor")
 engine = create_engine(
     f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
-
-st.success("Connected to PostgreSQL Successfully")
 # ===================================
 # GLOBAL FILTERS
 # ===================================
@@ -89,6 +98,34 @@ total_loan_value = overview_df["total_loan_value"][0]
 overall_npa_rate = overview_df["overall_npa_rate"][0]
 avg_recovery = overview_df["avg_recovery"][0]
 
+risk_query = f"""
+SELECT
+COUNT(*) FILTER (
+WHERE grade_numeric >= 6
+AND dti > 20
+) AS high_risk,
+
+COUNT(*) FILTER (
+WHERE grade_numeric BETWEEN 4 AND 5
+) AS medium_risk,
+
+COUNT(*) FILTER (
+WHERE grade_numeric <= 3
+) AS low_risk
+
+FROM clean_loan_data
+{condition}
+"""
+
+risk_dist = pd.read_sql(
+    risk_query,
+    engine
+)
+
+high_risk_count = risk_dist["high_risk"][0]
+medium_risk_count = risk_dist["medium_risk"][0]
+low_risk_count = risk_dist["low_risk"][0]
+
 # KPI Cards
 col1, col2, col3, col4 = st.columns(4)
 
@@ -108,6 +145,67 @@ col4.metric(
     "Avg Recovery",
     f"${avg_recovery:,.0f}"
 )
+# ===================================
+# PORTFOLIO HEALTH SCORE
+# ===================================
+
+health_score = round(
+    (100 - overall_npa_rate) * 0.8
+)
+
+if health_score >= 80:
+    status = "🟢 Healthy"
+
+elif health_score >= 60:
+    status = "🟡 Moderate Risk"
+
+else:
+    status = "🔴 High Risk"
+
+st.header("🏥 Portfolio Health")
+
+c1, c2 = st.columns(2)
+
+c1.metric(
+    "Health Score",
+    f"{health_score}/100"
+)
+
+c2.metric(
+    "Status",
+    status
+)
+# ===================================
+# ALERTS
+# ===================================
+
+st.header("🚨 Alerts")
+
+if overall_npa_rate > 10:
+    st.warning(
+        f"NPA Rate High ({overall_npa_rate}%)"
+    )
+
+if health_score < 60:
+    st.error(
+        "Portfolio Health Critical"
+    )
+
+if avg_recovery < 50:
+    st.warning(
+        "Recovery Performance Low"
+    )
+
+if high_risk_count > 10000:
+    st.error(
+        "Large Number of High Risk Accounts"
+    )
+
+if health_score >= 80:
+    st.success(
+        "Portfolio Performing Well"
+    )
+
 st.subheader("Loan Count by Grade")
 
 query = f"""
@@ -185,7 +283,10 @@ query = f"""
 SELECT
 grade,
 purpose,
-COUNT(*) total_loans
+ROUND(
+AVG(is_npa)*100,
+2
+) AS npa_rate
 FROM clean_loan_data
 {condition2}
 GROUP BY grade,purpose
@@ -196,7 +297,7 @@ heatmap_df = pd.read_sql(query, engine)
 heatmap = heatmap_df.pivot(
     index="grade",
     columns="purpose",
-    values="total_loans"
+    values="npa_rate"
 )
 
 fig = px.imshow(
@@ -210,34 +311,54 @@ st.plotly_chart(fig, use_container_width=True)
 # ===================================
 # HIGH RISK ACCOUNTS
 # ===================================
-st.header("⚠ High Risk Accounts")
+if st.session_state.role != "Manager":
+    st.header("⚠ High Risk Accounts")
+    query = f"""
+    SELECT
+    loan_amnt,
+    grade,
+    purpose,
+    dti,
+    annual_inc,
+    loan_status
+    FROM clean_loan_data
+    {condition}
+    AND grade_numeric >= 6
+    AND dti > 20
+    LIMIT 100
+    """
+    risk_df = pd.read_sql(query, engine)
+    st.dataframe(risk_df)
+    csv = risk_df.to_csv(index=False)
+    st.download_button(
+        "Download High Risk Accounts",
+        csv,
+        file_name="high_risk_accounts.csv",
+        mime="text/csv"
+        )
 
-query = f"""
-SELECT
-loan_amnt,
-grade,
-purpose,
-dti,
-annual_inc,
-loan_status
-FROM clean_loan_data
-{condition}
-AND grade_numeric >= 6
-AND dti > 20
-LIMIT 100
-"""
+# ===================================
+# RISK DISTRIBUTION
+# ===================================
+st.header("📊 Risk Distribution")
 
-risk_df = pd.read_sql(query, engine)
+r1, r2, r3 = st.columns(3)
 
-st.dataframe(risk_df)
-csv = risk_df.to_csv(index=False)
-
-st.download_button(
-    "Download High Risk Accounts",
-    csv,
-    file_name="high_risk_accounts.csv",
-    mime="text/csv"
+r1.metric(
+    "Low Risk",
+    f"{low_risk_count:,}"
 )
+
+r2.metric(
+    "Medium Risk",
+    f"{medium_risk_count:,}"
+)
+
+r3.metric(
+    "High Risk",
+    f"{high_risk_count:,}"
+)
+
 # ===================================
 # VINTAGE TRACKER
 # ===================================
@@ -293,36 +414,54 @@ st.plotly_chart(fig, use_container_width=True)
 # ===================================
 # TOP 100 LOANS
 # ===================================
-st.header("📋 Loan Details")
+if st.session_state.role != "Manager":
+    st.header("📋 Loan Details")
+    query = f"""
+    SELECT
+    loan_amnt,
+    funded_amnt,
+    grade,
+    purpose,
+    annual_inc,
+    dti,
+    loan_status
+    FROM clean_loan_data
+    {condition}
+    LIMIT 100
+    """
 
-query = f"""
-SELECT
-loan_amnt,
-funded_amnt,
-grade,
-purpose,
-annual_inc,
-dti,
-loan_status
-FROM clean_loan_data
-{condition}
-LIMIT 100
-"""
+    loan_df = pd.read_sql(query, engine)
 
-loan_df = pd.read_sql(query, engine)
-
-st.dataframe(
-    loan_df,
-    use_container_width=True
-)
+    st.dataframe(
+        loan_df,
+        use_container_width=True
+        )
 # ===================================
 # DOWNLOAD DATA
 # ===================================
-csv = loan_df.to_csv(index=False)
+    csv = loan_df.to_csv(index=False)
+
+    st.download_button(
+        label="⬇ Download Loan Data",
+        data=csv,
+        file_name="loan_data.csv",
+        mime="text/csv"
+        )
+st.header("📄 Portfolio Report")
+pdf_file = report_generator.generate_pdf(
+    total_loans,
+    total_loan_value,
+    overall_npa_rate,
+    avg_recovery,
+    health_score,
+    low_risk_count,
+    medium_risk_count,
+    high_risk_count
+)
 
 st.download_button(
-    label="⬇ Download Loan Data",
-    data=csv,
-    file_name="loan_data.csv",
-    mime="text/csv"
+    "📄 Download PDF Report",
+    data=pdf_file,
+    file_name="portfolio_report.pdf",
+    mime="application/pdf"
 )

@@ -4,10 +4,10 @@ from urllib.parse import quote_plus
 from pathlib import Path
 
 # PostgreSQL password
-password = quote_plus("Srithu@1808")
+password = quote_plus("2626")
 
 engine = create_engine(
-    f"postgresql+psycopg2://postgres:{password}@localhost:3307/loan_portfolio"
+    f"postgresql+psycopg2://postgres:{password}@localhost:5432/loan_portfolio"
 )
 
 # Correct path
