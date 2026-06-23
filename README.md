@@ -37,6 +37,20 @@ This project analyzes a large-scale loan dataset and provides actionable insight
 - Recovery Rate Analysis
 - Repayment Summary Metrics
 
+### Portfolio Health Monitoring
+- Portfolio Health Score
+- Automated Alerts
+- Risk Distribution Analysis
+
+### User Authentication
+- Login System
+- Role-Based Access Control
+- Manager Dashboard Restrictions
+
+### Reporting
+- Download Portfolio Report (PDF)
+- Export High Risk Accounts (CSV)
+- Export Loan Data (CSV)
 ---
 
 ## Project Structure
@@ -168,9 +182,11 @@ http://localhost:8501
 - Python
 - Pandas
 - NumPy
-- Matplotlib
-- Seaborn
+- PostgreSQL
+- SQLAlchemy
 - Streamlit
+- Plotly
+- ReportLab
 - Git
 - GitHub
 
@@ -195,3 +211,39 @@ Global Filters:
 ## Conclusion
 
 The Loan Portfolio Health Monitor provides a comprehensive solution for analyzing loan performance, identifying risky accounts, tracking NPA trends, and monitoring repayment health. The project demonstrates practical applications of data analytics, risk assessment, and dashboard development in the financial services domain.
+
+## System Architecture
+
+Lending Club Dataset
+        ↓
+Data Cleaning & Preprocessing
+        ↓
+Feature Engineering
+        ↓
+PostgreSQL Database
+        ↓
+Risk Analytics Engine
+        ↓
+Streamlit Dashboard
+        ↓
+Authentication + PDF Reporting
+
+## Dashboard Features 
+
+- Portfolio Overview
+- Portfolio Health Score
+- Alerts Engine
+- NPA Deep Dive
+- Risk Distribution
+- Vintage Tracker
+- Repayment Health
+- High Risk Account Detection
+- PDF Report Download
+
+## Future Enhancements
+
+- Machine Learning Based Default Prediction
+- Real-Time Data Integration
+- Email Alert System
+- Automated Portfolio Monitoring
+- Predictive Risk Analytics
