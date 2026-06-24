@@ -7,10 +7,10 @@ from urllib.parse import quote_plus
 # ==========================================================
 # CONNECT TO POSTGRESQL
 # ==========================================================
-password = quote_plus("Srithu@1808")
+password = quote_plus("2626")
 
 engine = create_engine(
-    f"postgresql+psycopg2://postgres:{password}@localhost:3307/loan_portfolio"
+    f"postgresql+psycopg2://postgres:{password}@localhost:5432/loan_portfolio"
 )
 
 # ==========================================================
@@ -214,7 +214,7 @@ print("\nCleaned dataset saved successfully!")
 print("\nFinal Shape:")
 print(df.shape)
 engine = create_engine(
-    "postgresql+psycopg2://postgres:YOUR_PASSWORD@localhost:3307/loan_portfolio"
+    "postgresql+psycopg2://postgres:YOUR_PASSWORD@localhost:5432/loan_portfolio"
 )
 
 df.to_sql(
